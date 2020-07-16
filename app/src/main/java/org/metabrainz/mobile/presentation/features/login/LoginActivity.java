@@ -56,7 +56,8 @@ public class LoginActivity extends MusicBrainzActivity {
         if (LoginSharedPreferences.getLoginStatus() == LoginSharedPreferences.STATUS_LOGGED_OUT) {
             Intent intent = new Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(MusicBrainzServiceGenerator.AUTH_URL
+                    Uri.parse(MusicBrainzServiceGenerator.AUTH_BASE_URL
+                            + "authorize"
                             + "?response_type=code"
                             + "&client_id=" + MusicBrainzServiceGenerator.CLIENT_ID
                             + "&redirect_uri=" + MusicBrainzServiceGenerator.OAUTH_REDIRECT_URI

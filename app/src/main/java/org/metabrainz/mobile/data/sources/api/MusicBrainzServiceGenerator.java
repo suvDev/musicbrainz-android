@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -11,8 +12,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MusicBrainzServiceGenerator {
-    private static final String API_BASE_URL = "https://musicbrainz.org/ws/2/";
-    public static final String AUTH_URL = "https://musicbrainz.org/oauth2/authorize";
+    public static final String API_BASE_URL = "https://musicbrainz.org/ws/2/";
+    public static final String AUTH_BASE_URL = "https://musicbrainz.org/oauth2/";
     public static final String ACOUST_ID_BASE_URL = "https://api.acoustid.org/v2/lookup";
     public static final String CLIENT_ID = "BZn9PT8PXtzoUvR1ZIaXFw";
     public static final String CLIENT_SECRET = "WN6o5cjehjPAP4dib0zOmQ";
@@ -38,8 +39,12 @@ public class MusicBrainzServiceGenerator {
 
     private static Retrofit retrofit = builder.build();
 
-    public static <S> S createService(Class<S> service, boolean requiresAuthenticator) {
+    public static <S> S createTestService(Class<S> service, HttpUrl testUrl) {
+        Retrofit testRetrofit = builder.baseUrl(testUrl).build();
+        return testRetrofit.create(service);
+    }
 
+    public static <S> S createService(Class<S> service, boolean requiresAuthenticator) {
         headerInterceptor = new HeaderInterceptor();
         addInterceptors(headerInterceptor);
 
